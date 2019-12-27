@@ -1,9 +1,8 @@
 package com.hanegraaff
 
+
 import com.hanegraaff.AWSCli
 import com.hanegraaff.IStepExecutor;
-import com.hanegraaff.ioc.ContextRegistry;
-import com.hanegraaff.ioc.IContext;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,17 +12,11 @@ import static org.mockito.Mockito.*;
  * Example test class
  */
 public class TestAWSCli {
-    private IContext _context;
-    private com.hanegraaff.IStepExecutor _steps;
+    private IStepExecutor _steps
 
     @Before
-    void setup() {
-        _context= org.mockito.Mockito.mock(com.hanegraaff.ioc.IContext.class)
+    void setup()
         _steps = org.mockito.Mockito.mock(com.hanegraaff.IStepExecutor.class)
-
-        org.mockito.Mockito.when(_context.getStepExecutor()).thenReturn(_steps)
-
-        ContextRegistry.registerContext(_context);
     }
 
     @Test

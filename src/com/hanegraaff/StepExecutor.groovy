@@ -12,7 +12,13 @@ class StepExecutor implements IStepExecutor {
     @Override
     int sh(String command) {
         this._steps.sh returnStatus: true, script: "${command}"
+
+        returnVal = this._steps.sh(returnStdout: true, script: "${command}").trim()
+        echo returnVal
+
+        return returnVal
     }
+
 
     @Override
     void error(String message) {
