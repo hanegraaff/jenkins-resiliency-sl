@@ -14,7 +14,7 @@ class StepExecutor implements IStepExecutor {
         this._steps.sh returnStatus: true, script: "${command}"
 
         returnVal = this._steps.sh(returnStdout: true, script: "${command}").trim()
-        echo returnVal
+        echo "sh return value is $returnVal"
 
         return returnVal
     }
