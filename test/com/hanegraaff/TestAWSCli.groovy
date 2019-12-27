@@ -21,7 +21,7 @@ class TestAWSCli {
 
         Mockito.when(_steps.sh()).thenReturn(0)
 
-        int result = cli.invoke("aws s3 ls")
+        int result = cli.invoke("some cli command")
 
         assert result == 0
 
