@@ -1,10 +1,11 @@
-def call(){
-    echo "invoked the call method"
-}
+import com.hanegraaff.AWSCli
 
+def call(cmd){
+    echo "invoking method: $cmd"
 
-def testMethod(){
-    echo "Invoked test method"
+    //AWSCli cli = new AWSCli(this)
+
+    //cli.invoke(cmd)
 }
 
 
