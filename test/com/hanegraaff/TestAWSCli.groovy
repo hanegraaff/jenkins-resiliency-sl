@@ -2,7 +2,7 @@ package com.hanegraaff
 
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito
+import static org.mockito.Mockito.*;
 
 /**
  * Example test class
@@ -12,18 +12,21 @@ class TestAWSCli {
 
     @Before
     void setup(){
-        _steps = Mockito.mock(IStepExecutor.class)
+        this._steps = mock(IStepExecutor.class)
     }
 
     @Test
     void test_invoke() {
         AWSCli cli = new AWSCli(this._steps)
 
-        Mockito.when(_steps.sh()).thenReturn(0)
+        when(this._steps.sh(anyString())).thenReturn(  2)
 
-        int result = cli.invoke("some cli command")
+        println("my return value is: " + this._steps.sh("hello"))
 
-        assert result == 0
+        def result = cli.invoke("some cli command")
+
+
+        assert result == 1
 
     }
 

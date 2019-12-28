@@ -13,10 +13,10 @@ class StepExecutor implements IStepExecutor {
     int sh(String command) {
         this._steps.sh returnStatus: true, script: "${command}"
 
-        returnVal = this._steps.sh(returnStdout: true, script: "${command}").trim()
-        echo "sh return value is $returnVal"
+        def returnVal = this._steps.sh(returnStdout: true, script: "${command}").trim()
+        println "sh return value is $returnVal"
 
-        return returnVal
+        return -1
     }
 
 

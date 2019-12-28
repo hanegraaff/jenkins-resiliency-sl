@@ -8,7 +8,7 @@ class AWSCli {
         this._stepExec = stepExec
     }
 
-    def invoke(cmd){
+    int invoke(cmd){
         return this._stepExec.sh(cmd)
     }
 
