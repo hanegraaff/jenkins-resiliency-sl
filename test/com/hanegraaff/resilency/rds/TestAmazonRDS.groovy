@@ -2,6 +2,7 @@ package com.hanegraaff
 
 import com.hanegraaff.AWSCli
 import com.hanegraaff.IStepExecutor
+import com.hanegraaff.resiliency.rds.AmazonRDS
 import org.junit.Before
 import org.junit.Test
 import static org.mockito.Mockito.*;
@@ -9,17 +10,18 @@ import static org.mockito.Mockito.*;
 /**
  * Example test class
  */
-class TestAWSCli {
+class TestAmazonRDS {
     private IStepExecutor _steps
 
     @Before
     void setup(){
-        this._steps = mock(IStepExecutor.class)
+
     }
 
     @Test
     void test_invoke() {
-        AWSCli cli = new AWSCli(this._steps)
+        AmazonRDS amazonRDS = new AmazonRDS()
+        /*AWSCli cli = new AWSCli(this._steps)
 
         when(this._steps.sh(anyString())).thenReturn(  2)
 
@@ -28,7 +30,7 @@ class TestAWSCli {
         def result = cli.invoke("some cli command")
 
 
-        assert result == 2
+        assert result == 2*/
 
     }
 
