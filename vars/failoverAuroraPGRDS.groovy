@@ -2,7 +2,8 @@ import com.hanegraaff.logging.LogManager
 import com.hanegraaff.resiliency.rds.AmazonRDS
 
 /**
- * Performs a Database Failover by performing the following steps:
+ * Performs a Database Failover (AWS Postgres Aurora) by performing
+ * the following steps:
  * 1) Get latest database snapshot
  * 2) ???
  * 3) profit!
