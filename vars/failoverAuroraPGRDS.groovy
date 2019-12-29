@@ -17,15 +17,11 @@ def call(String sysid) {
     LogManager.setPipelineSteps(this)
     Log.log "About to failover database for $sysid"
 
-    getLatestSnapShot()
+    AmazonRDS rds = new AmazonRDS()
+    Log.log "Fetching latest snapshots"
+    rds.getLatestDBClusterSnapshot(sysid)
 
     // other database failover steps go here
     Log.log "database was failed over"
 
-}
-
-def getLatestSnapShot(){
-    AmazonRDS rds = new AmazonRDS()
-    Log.log "Fetching latest snapshots"
-    rds.getLatestDBClusterSnapshot(sysid)
 }
