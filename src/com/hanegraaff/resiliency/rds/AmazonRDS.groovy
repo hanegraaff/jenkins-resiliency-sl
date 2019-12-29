@@ -8,11 +8,11 @@ import com.amazonaws.services.rds.AmazonRDSClientBuilder
 import com.amazonaws.services.rds.model.DescribeDBClusterSnapshotsRequest
 import com.amazonaws.services.rds.model.DescribeDBClusterSnapshotsResult
 import com.hanegraaff.logging.Log
-import com.hanegraaff.grabimports
 
 import java.util.logging.ConsoleHandler
 import java.util.logging.LogManager
 
+@Grab('com.amazonaws:aws-java-sdk-rds:1.11.228')
 class AmazonRDS {
 
     AWSCredentialsProvider creds

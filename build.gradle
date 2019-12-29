@@ -63,3 +63,4 @@ sourceSets {
 tasks.withType(GroovyCompile) {
     groovyClasspath += configurations.ivy
 }
+
