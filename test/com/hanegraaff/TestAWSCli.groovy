@@ -1,7 +1,7 @@
 package com.hanegraaff
 
-import com.hanegraaff.AWSCli
-import com.hanegraaff.IStepExecutor
+
+import com.hanegraaff.jenkins.IStepExecutor
 import org.junit.Before
 import org.junit.Test
 import static org.mockito.Mockito.*;

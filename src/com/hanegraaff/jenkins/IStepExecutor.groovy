@@ -1,4 +1,4 @@
-package com.hanegraaff
+package com.hanegraaff.jenkins
 
 /**
  * Interface for all pipeline steps used by any class in this shared library

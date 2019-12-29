@@ -29,7 +29,7 @@ repositories {
 
 dependencies {
     // aws sdk dependencies
-    compile 'com.amazonaws:aws-java-sdk-s3'
+    compile 'com.amazonaws:aws-java-sdk-rds'
 
     // groovy + testing dependencies
     compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.3.11'
@@ -40,7 +40,7 @@ dependencies {
 sourceSets {
     main {
         java {
-            srcDirs = []
+            srcDirs = ['src']
         }
         groovy {
             // all code files will be in either of the folders

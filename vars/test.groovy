@@ -1,5 +1,5 @@
 import com.hanegraaff.AWSCli
-import com.hanegraaff.StepExecutor
+import com.hanegraaff.jenkins.StepExecutor
 
 def call(cmd){
     echo "invoking method: $cmd"
