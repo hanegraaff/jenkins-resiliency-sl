@@ -23,7 +23,7 @@ class AmazonRDS {
      * Constructor
      */
     AmazonRDS(){
-       this.creds = this.initCredentials()
+       this.creds = new DefaultAWSCredentialsProviderChain()
        rdsClient = AmazonRDSClientBuilder
                .standard()
                     .withCredentials(this.creds)
