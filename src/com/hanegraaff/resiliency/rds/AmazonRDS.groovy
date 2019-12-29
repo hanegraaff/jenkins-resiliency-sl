@@ -13,7 +13,7 @@ import java.util.logging.ConsoleHandler
 import java.util.logging.LogManager
 
 
-@Grab('com.amazonaws:aws-java-sdk-rds:1.11.228')
+//@Grab('com.amazonaws:aws-java-sdk-rds:1.11.228')
 class AmazonRDS {
 
     AWSCredentialsProvider creds
