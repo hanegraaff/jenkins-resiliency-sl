@@ -7,10 +7,8 @@ import com.amazonaws.services.rds.AmazonRDSClient
 import com.amazonaws.services.rds.AmazonRDSClientBuilder
 import com.amazonaws.services.rds.model.DescribeDBClusterSnapshotsRequest
 import com.amazonaws.services.rds.model.DescribeDBClusterSnapshotsResult
+import com.hanegraaff.aws.AWSConfigurator
 import com.hanegraaff.logging.Log
-
-import java.util.logging.ConsoleHandler
-import java.util.logging.LogManager
 
 
 //@Grab('com.amazonaws:aws-java-sdk-rds:1.11.228')
@@ -21,9 +19,13 @@ class AmazonRDS {
 
     /**
      * Constructor
+     *
+     * Prepares the AWS Client using the DefaultAWSCredentialsProviderChain described here:
+     * https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html
+     *
      */
     AmazonRDS(){
-       this.creds = new DefaultAWSCredentialsProviderChain()
+       this.creds = AWSConfigurator.getCredentialsProvider()
        rdsClient = AmazonRDSClientBuilder
                .standard()
                     .withCredentials(this.creds)
@@ -65,15 +67,5 @@ class AmazonRDS {
 
         List snapshotList = getDBClusterSnapShotList()
         return ""
-    }
-
-
-    /**
-     * Prepared the AWS Client using the DefaultAWSCredentialsProviderChain described here:
-     * https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html
-     *
-     */
-    private AWSCredentialsProvider initCredentials(){
-        return new DefaultAWSCredentialsProviderChain()
     }
 }

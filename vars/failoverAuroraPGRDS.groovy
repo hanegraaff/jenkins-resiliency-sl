@@ -23,5 +23,4 @@ def call(String sysid) {
 
     // other database failover steps go here
     Log.log "database was failed over"
-
 }
