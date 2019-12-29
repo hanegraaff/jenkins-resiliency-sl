@@ -12,7 +12,7 @@ import com.hanegraaff.logging.Log
 import java.util.logging.ConsoleHandler
 import java.util.logging.LogManager
 
-@NonCPS
+
 @Grab('com.amazonaws:aws-java-sdk-rds:1.11.228')
 class AmazonRDS {
 
@@ -23,10 +23,10 @@ class AmazonRDS {
      * Constructor
      */
     AmazonRDS(){
-       creds = initCredentials()
+       this.creds = this.initCredentials()
        rdsClient = AmazonRDSClientBuilder
                .standard()
-                    .withCredentials(creds)
+                    .withCredentials(this.creds)
                     .withRegion(Regions.US_EAST_1)
                     .build()
     }
