@@ -1,0 +1,3 @@
+### failoverAuroraPGRDS
+
+Global variable responsible for failing over an RDS Aurora PostGres database

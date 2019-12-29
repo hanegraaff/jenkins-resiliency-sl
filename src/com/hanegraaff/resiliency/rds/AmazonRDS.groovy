@@ -78,8 +78,6 @@ class AmazonRDS {
             if (page == null) break
         }
 
-        throw new Exception("there was an error ha ha ha ha")
-
         return snapshotList
     }
 
