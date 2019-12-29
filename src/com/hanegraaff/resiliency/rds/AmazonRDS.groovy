@@ -11,30 +11,45 @@ import com.hanegraaff.aws.AWSConfigurator
 import com.hanegraaff.logging.Log
 
 
-//@Grab('com.amazonaws:aws-java-sdk-rds:1.11.228')
 class AmazonRDS {
 
     AWSCredentialsProvider creds
     AmazonRDSClient rdsClient
 
+    def initilized
+
     /**
      * Constructor
-     *
-     * Prepares the AWS Client using the DefaultAWSCredentialsProviderChain described here:
-     * https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html
-     *
      */
     AmazonRDS(){
-       this.creds = AWSConfigurator.getCredentialsProvider()
-       rdsClient = AmazonRDSClientBuilder
-               .standard()
+        initilized = false;
+    }
+
+
+    /**
+     * Initializes the AWS constructs used by this class
+     * Note that this is being kept outside the constructor so that there are no CPS issues
+     * when running this code inside a pipeline. For more information see this:
+     *
+     * https://wiki.jenkins.io/display/JENKINS/Pipeline+CPS+method+mismatches
+     *
+     */
+    protected void init(){
+        if (!initilized){
+            this.creds = AWSConfigurator.getCredentialsProvider()
+            rdsClient = AmazonRDSClientBuilder
+                    .standard()
                     .withCredentials(this.creds)
                     .withRegion(Regions.US_EAST_1)
                     .build()
+        }
+
     }
 
 
     protected List getDBClusterSnapShotList(){
+        init()
+
         DescribeDBClusterSnapshotsRequest request = new DescribeDBClusterSnapshotsRequest()
         DescribeDBClusterSnapshotsResult response
 
