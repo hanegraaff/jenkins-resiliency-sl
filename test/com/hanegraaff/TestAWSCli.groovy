@@ -27,7 +27,6 @@ class TestAWSCli {
 
         def result = cli.invoke("some cli command")
 
-
         assert result == 2
 
     }

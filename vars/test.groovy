@@ -1,14 +1,25 @@
-import com.hanegraaff.AWSCli
-import com.hanegraaff.jenkins.StepExecutor
+import com.hanegraaff.logging.LogManager
+import com.hanegraaff.resiliency.rds.AmazonRDS
 
-def call(cmd){
-    echo "invoking method: $cmd"
+/**
+ * Performs a Database Failover by performing the following steps:
+ * 1) Get latest database snapshot
+ * 2) ???
+ * 3) profit!
+ *
+ * @param sysid The sysid of the database in question.
+ * @return
+ */
+def call(String sysid) {
+    LogManager.setPipelineSteps(this)
+    echo "About to failover database for $sysid"
 
-    AWSCli cli = new AWSCli(new StepExecutor(this))
+    AmazonRDS rds = new AmazonRDS()
 
-    cli.invoke(cmd)
+    echo "Fetching latest snapshots"
+    rds.getLatestDBClusterSnapshot(sysid)
+
+    // other database failover steps go here
+    echo "database was failed over"
+
 }
-
-
-
-
