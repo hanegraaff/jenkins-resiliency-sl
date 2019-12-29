@@ -11,17 +11,21 @@ import com.hanegraaff.resiliency.rds.AmazonRDS
  * @param sysid The sysid of the database in question.
  * @return
  */
-@NonCPS
+//@NonCPS
 def call(String sysid) {
     LogManager.setPipelineSteps(this)
     echo "About to failover database for $sysid"
 
-    AmazonRDS rds = new AmazonRDS()
-
-    echo "Fetching latest snapshots"
-    rds.getLatestDBClusterSnapshot(sysid)
+    getLatestSnapShot()
 
     // other database failover steps go here
     echo "database was failed over"
 
+}
+
+@NonCPS
+def getLatestSnapShot(){
+    AmazonRDS rds = new AmazonRDS()
+    echo "Fetching latest snapshots"
+    rds.getLatestDBClusterSnapshot(sysid)
 }
