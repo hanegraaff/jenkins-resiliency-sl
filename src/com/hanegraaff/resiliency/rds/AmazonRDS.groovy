@@ -12,6 +12,7 @@ import com.hanegraaff.logging.Log
 import java.util.logging.ConsoleHandler
 import java.util.logging.LogManager
 
+@NonCPS
 @Grab('com.amazonaws:aws-java-sdk-rds:1.11.228')
 class AmazonRDS {
 
