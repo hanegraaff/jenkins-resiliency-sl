@@ -11,7 +11,7 @@ import com.hanegraaff.resiliency.rds.AmazonRDS
  * @param sysid The sysid of the database in question.
  * @return
  */
-//@NonCPS
+@NonCPS
 def call(String sysid) {
     LogManager.setPipelineSteps(this)
     echo "About to failover database for $sysid"
