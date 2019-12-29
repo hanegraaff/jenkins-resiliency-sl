@@ -24,7 +24,6 @@ def call(String sysid) {
 
 }
 
-@NonCPS
 def getLatestSnapShot(){
     AmazonRDS rds = new AmazonRDS()
     Log.log "Fetching latest snapshots"
