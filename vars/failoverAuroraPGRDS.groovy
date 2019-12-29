@@ -1,3 +1,4 @@
+import com.hanegraaff.logging.Log
 import com.hanegraaff.logging.LogManager
 import com.hanegraaff.resiliency.rds.AmazonRDS
 
@@ -14,18 +15,18 @@ import com.hanegraaff.resiliency.rds.AmazonRDS
 //@NonCPS
 def call(String sysid) {
     LogManager.setPipelineSteps(this)
-    echo "About to failover database for $sysid"
+    Log.log "About to failover database for $sysid"
 
     getLatestSnapShot()
 
     // other database failover steps go here
-    echo "database was failed over"
+    Log.log "database was failed over"
 
 }
 
 @NonCPS
 def getLatestSnapShot(){
     AmazonRDS rds = new AmazonRDS()
-    echo "Fetching latest snapshots"
+    Log.log "Fetching latest snapshots"
     rds.getLatestDBClusterSnapshot(sysid)
 }
