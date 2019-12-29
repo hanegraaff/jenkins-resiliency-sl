@@ -42,6 +42,8 @@ class AmazonRDS {
                     .withCredentials(this.creds)
                     .withRegion(Regions.US_EAST_1)
                     .build()
+
+            initilized = true
         }
 
     }
@@ -59,6 +61,8 @@ class AmazonRDS {
         def page = null
 
         Log.log("reading snapshot types")
+
+        // do this in a loop so we can handle paging
         while (!done){
             request.withSnapshotType("manual")
             request.withMarker(page)
@@ -74,12 +78,13 @@ class AmazonRDS {
             if (page == null) break
         }
 
+        throw new Exception("there was an error ha ha ha ha")
+
         return snapshotList
     }
 
 
     String getLatestDBClusterSnapshot(String prefix){
-
         List snapshotList = getDBClusterSnapShotList()
         return ""
     }
