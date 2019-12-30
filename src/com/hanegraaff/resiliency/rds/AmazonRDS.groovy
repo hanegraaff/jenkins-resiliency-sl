@@ -1,7 +1,6 @@
 package com.hanegraaff.resiliency.rds
 
 import com.amazonaws.auth.AWSCredentialsProvider
-import com.amazonaws.auth.DefaultAWSCredentialsProviderChain
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.rds.AmazonRDSClient
 import com.amazonaws.services.rds.AmazonRDSClientBuilder
@@ -22,19 +21,25 @@ class AmazonRDS {
      * Constructor
      */
     AmazonRDS(){
-        initilized = false;
+        this.initilized = false;
+    }
+
+    AmazonRDS(AWSCredentialsProvider credProvider){
+        this.creds = false;
     }
 
 
     /**
-     * Initializes the AWS constructs used by this class
-     * Note that this is being kept outside the constructor so that there are no CPS issues
+     * Initializes this class with a standard (locally configured) credentials
+     * provider, of one is already not supplied.
+     *
+     * Note that this is being kept outside the default constructor so that there are no CPS issues
      * when running this code inside a pipeline. For more information see this:
      *
      * https://wiki.jenkins.io/display/JENKINS/Pipeline+CPS+method+mismatches
      *
      */
-    protected void init(){
+    protected void tryInit(){
         if (!initilized){
             this.creds = AWSConfigurator.getCredentialsProvider()
             rdsClient = AmazonRDSClientBuilder
@@ -43,14 +48,19 @@ class AmazonRDS {
                     .withRegion(Regions.US_EAST_1)
                     .build()
 
-            initilized = true
+            this.initilized = true
         }
-
     }
 
 
+    /**
+     * helper function that returns a list of manual snapshots names
+     * using the AWS SDK.
+     *
+     * @return List of strings with snapshot names
+     */
     protected List getDBClusterSnapShotList(){
-        init()
+        tryInit()
 
         DescribeDBClusterSnapshotsRequest request = new DescribeDBClusterSnapshotsRequest()
         DescribeDBClusterSnapshotsResult response
@@ -82,6 +92,13 @@ class AmazonRDS {
     }
 
 
+    /**
+     * returns the name of the latest cluster snapshot given a prefix
+     * The snapshot will be returned in alphabetical order
+     *
+     * @param prefix
+     * @return
+     */
     String getLatestDBClusterSnapshot(String prefix){
         List snapshotList = getDBClusterSnapShotList()
         return ""
