@@ -46,7 +46,7 @@ pipeline {
             steps{
                 aws_withAssumeRole("arn:aws:iam::1234567890:role/abc", "us-west-2"){assumedCreds ->
                     script{
-                       env.latestRDSSnapshot = aws_rds_findLatestAuroraSnapshot("cbj", assumedCreds, "us-west-2")
+                       env.latestSnapshot = aws_rds_findLatestAuroraSnapshot("prefix", assumedCreds, "us-west-2")
                     } 
                 }
                 
@@ -201,7 +201,7 @@ def call(String prefix, AWSCredentialsProvider credProvider, String region)
 
 # Library framework
 Each global variable is built on top of a framework based on the Java AWS SDK, and is implemented by the classes in ```src```folder.
-This section provides a high level overview of the package structure
+This section provides a high level overview of the package structure.
 
 ## Logging package
 ```groovy
@@ -220,7 +220,7 @@ Log.log "Some Message"
 will result in the message appearing to STDOUT
 
 ### Logging to Jenkins Console
-When logging to the Jenkins console we must first use the ```LogManager``` to set the ```steps``` object. This must be done from within a Global Variable definition.
+When logging to the Jenkins console you must first use the ```LogManager``` to set the ```steps``` object. This must be done from within a Global Variable definition.
 
 ```groovy
 import com.hanegraaff.logging.LogManager
@@ -241,9 +241,9 @@ com.hanegraaff.exceptions
 ```
 
 This package contains all the custom application exceptions.
-These exceptions are used to represent different categories of errors, and when low level is exception is caught is typically rethrown as a custom exception.
+These exceptions are used to represent different categories of errors, and when low level exceptions are caught they are usually rethrown as a custom exception.
 
-To be clear, these exceptions are coarse and exists solely to categorize the set of errors that this library is willing to generate.
+To be clear, these exceptions are coarse and exists solely to categorize the set of errors that this library is willing to generate. This way, when a pipeline fails we can easily tell why
 
 Exceptions in this library make use of chaining, where the underlining cause is wrapped in the custom exception. For additional information on exception chaining see this link:
 
@@ -308,6 +308,10 @@ com.hanegraaff.aws
 ```
 
 Currently contains a single class, called ```AWSConfigurator``` which contains various utility functions used to facilitate interacting with AWS SDK.
+Using this class, you may:
+1) Convert a region name (e.g. 'us-east-1') to a "Regions" object.
+2) Get the locally configured Credentials provider (e.g. based on the instance profile).
+3) Determine the current region when running on EC2
 
 ## Resiliency package
 ```groovy
@@ -317,7 +321,7 @@ com.hanegraaff.resiliency
 Contains the classes that expose the resiliency functions used by the global variables.
 Each AWS service is encapsulated into its own class.
 
-For example RDS Resiliency functions, like identifying the latest RDS Cluster Snapshot for a given prefix, are implemented in the ```AmazonRDSResliency``` class.
+For example RDS functions, like the ability to identify the latest RDS Cluster Snapshot for a given prefix, are implemented in the ```AmazonRDSResliency``` class.
 
 Each class in this  package inherits from the ```BaseResiliency``` class. This class forces initialization in two steps, to avoid CPS issues with class constructors.
 For more information, see this link:
