@@ -40,29 +40,29 @@ Here is an example pipeline that uses this library.
 @Library('resiliency-sl@feature/initial-version') _
 
 pipeline {
-	agent any
-	stages {
-		stage ('Failover Database') {
-			steps{
-			    aws_withAssumeRole("arn:aws:iam::1234567890:role/abc", "us-west-2"){assumedCreds ->
-			        script{
-			           env.latestRDSSnapshot = aws_rds_findLatestAuroraSnapshot("cbj", assumedCreds, "us-west-2")
-			        } 
-			    }
-				
-				// perform other failover steps here
-				//...
-			    
-			}
-		}
-		stage ('Start EC2 Instance') {
-			steps{
-				script{
-					def state = aws_ec2_startEC2Instance("i-1234567890", null, 'us-west-2')
-					echo "ec2 state is $state"
-				}
-			}
-		}
+    agent any
+    stages {
+        stage ('Failover Database') {
+            steps{
+                aws_withAssumeRole("arn:aws:iam::1234567890:role/abc", "us-west-2"){assumedCreds ->
+                    script{
+                       env.latestRDSSnapshot = aws_rds_findLatestAuroraSnapshot("cbj", assumedCreds, "us-west-2")
+                    } 
+                }
+                
+                // perform other failover steps here
+                //...
+                
+            }
+        }
+        stage ('Start EC2 Instance') {
+            steps{
+                script{
+                    def state = aws_ec2_startEC2Instance("i-1234567890", null, 'us-west-2')
+                    echo "ec2 state is $state"
+                }
+            }
+        }
     }
     post {
         failure {
