@@ -36,6 +36,7 @@ dependencies {
 
     // aws sdk dependencies
     compile 'com.amazonaws:aws-java-sdk-rds'
+    compile 'com.amazonaws:aws-java-sdk-ec2'
     compile 'com.amazonaws:aws-java-sdk-sts'
 
     // groovy + testing dependencies
@@ -59,6 +60,18 @@ sourceSets {
             srcDir 'test'
         }
     }
+}
+
+groovydoc {
+    use = true
+    groovyClasspath = configurations.compile
+    destinationDir = new File(buildDir, 'groovyDoc')
+    // Create GroovyDoc for Groovy
+    source = sourceSets.main.groovy
+    windowTitle = 'Jenkins Resiliency Shared Lib'
+    docTitle = "Groovy example ${version} API"
+    header = 'Jenkins Resiliency Shared Lib'
+    link 'https://github.com/hanegraaff/jenkins-resiliency-sl', 'groovy.'
 }
 
 tasks.withType(GroovyCompile) {

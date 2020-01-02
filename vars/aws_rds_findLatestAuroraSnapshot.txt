@@ -1,0 +1,34 @@
+Identifies the latest database snapshot given a prefix.
+<p>
+The prefix is used a filter, and "latest" is found by sorting snapshots in alphabetical (descending) order and returning the top item.
+
+<p>for example if my snapshots are:
+<ul>
+    <li>snapshot_20191229</li>
+    <li>snapshot_20191230</li>
+    <li>snapshot_20191231</li>
+</ul>
+The return value will be <b>snapshot_20191231</b>
+
+<dl>
+    <dt><code>prefix (String)</code></dt>
+    <dd>The prefix used filter snapshots</dd>
+    <dt><code>credProvider (AWSCredentialsProvider)</code></dt>
+    <dd>The optional credentials provider to use. Passing a null value will use default provider</dd>
+    <dt><code>region (String)</code></dt>
+    <dd>The RDS region where the snapshot is located</dd>
+</dl>
+<p>Example
+<pre>
+steps{
+    aws_withAssumeRole("arn:aws:iam::1234567890:role/abc", "us-west-2"){assumedCreds ->
+        script{
+           env.latestRDSSnapshot = aws_rds_findLatestAuroraSnapshot("cbj", assumedCreds, "us-west-2")
+        }
+    }
+
+    // perform other failover steps here
+    //...
+
+}
+</pre>

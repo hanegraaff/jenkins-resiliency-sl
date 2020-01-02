@@ -1,0 +1,18 @@
+Starts an EC2 instance given the Instance ID. The return value will be a string representing the instance new state
+<dl>
+    <dt><code>instanceID (String)</code></dt>
+    <dd>Instance ID of the EC2 instance that will be started</dd>
+    <dt><code>credProvider (AWSCredentialsProvider)</code></dt>
+    <dd>The optional credentials provider to use. Passing a null value will use default provider</dd>
+    <dt><code>region (String)</code></dt>
+    <dd>The EC2 region where the instance is located</dd>
+</dl>
+<p>Example
+<pre>
+steps{
+    script{
+        def state = aws_ec2_startEC2Instance("i-1234567890", null, 'us-west-2')
+        echo "ec2 state is $state"
+    }
+}
+</pre>

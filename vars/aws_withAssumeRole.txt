@@ -1,0 +1,19 @@
+Allows for the supplied closure to access a credential provider (STSAssumeRoleSessionCredentialsProvider) for the roleArn parameter. This is used by code and steps that interact with AWS
+
+<dl>
+    <dt><code>roleArn (String)</code></dt>
+    <dd>The Role ARN to assume into</dd>
+    <dt><code>region (String)</code></dt>
+    <dd>The STS region endpoint to use</dd>
+    <dt><code>cl (Closure)</code></dt>Closure to execute</dd>
+</dl>
+<p>Example
+<pre>
+steps{
+   aws_withAssumeRole("arn:aws:iam::1234567890:role/abc", "us-east-1"){assumedCreds ->
+      script{
+         env.latestRDSSnapshot = aws_rds_findLatestAuroraSnapshot("snapshot-prefix-name", assumedCreds, "us-west-1")
+      }
+   }
+}
+</pre>
