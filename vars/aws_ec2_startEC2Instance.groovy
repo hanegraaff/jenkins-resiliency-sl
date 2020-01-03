@@ -30,7 +30,7 @@ def call(String instanceID, AWSCredentialsProvider credProvider, String region) 
         return state
     }
     catch(AWSException awe){
-        Log.logToJenkinsConsole "There was an error starting ec2: $awe"
+        Log.logToJenkinsConsole "There was an error starting ec2 instance: $instanceID" + awe.printMessage()
         throw awe
     }
 }

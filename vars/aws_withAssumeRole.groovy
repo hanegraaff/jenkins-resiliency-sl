@@ -52,10 +52,9 @@ def call(String roleArn, String regionName, Closure<?> cl){
                 new STSAssumeRoleSessionCredentialsProvider.Builder(roleArn, UUID.randomUUID().toString())
                         .withStsClient(stsClient).build()
     } catch (Exception e){
-        Log.logToJenkinsConsole "There was an error assuming role because"
+        Log.logToJenkinsConsole "There was an error assuming role $roleArn because: " + e.getMessage()
         throw new AWSException("Error assuming role: $roleArn", e)
     }
 
-    Log.logToJenkinsConsole "Executing closure"
     cl(assumedCreds)
 }

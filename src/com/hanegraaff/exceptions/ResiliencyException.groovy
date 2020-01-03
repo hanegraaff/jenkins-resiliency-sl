@@ -20,8 +20,7 @@ class ResiliencyException extends Exception{
         super(message, cause)
     }
 
-    @Override
-    String toString(){
+    String printMessage(){
         def message = getMessage()
         def cause = getCause()?.getMessage()
         def className = this.getClass().getSimpleName()

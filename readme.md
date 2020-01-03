@@ -17,14 +17,24 @@ This library offers two things:
 ## Build environment
 This project was built and tested using the following configurations:
 
+### Linux
 1) Ubuntu 18.04.3 LTS
 2) Groovy Version: 2.5.8 JVM: 11.0.5 Vendor: Private Build OS: Linux
 3) IntelliJ IDEA 2019.3.1 (Community Edition)
 4) Jenkins ver. 2.204.1
 
+### OSX
+1) MacOS Catalina
+3) IntelliJ IDEA 2019.3.1 (Community Edition)
+2) Jenkins ver. 2.204.1
+
+## Jenkins CPS Limitations
+The code in this shared library works around Continuous Passing Style limitations in Jenkins. Specifically it avoids calling library methods inside constructors and overriding methods in derived classes. These are called out in more detail later in this document, and an overview of these can be found here
+
+https://wiki.jenkins.io/display/JENKINS/Pipeline+CPS+method+mismatches
+
 
 # Using this library in a pipeline
-
 The library can be used exactly like any other Jenkins shared library
 
 1) Configure the shared library in Jenkins and give it an alias. In this case we call it ```jenkins-sl```.
@@ -73,7 +83,6 @@ pipeline {
 ```
 
 # Library Global Variables
-
 This section describes the global variables exposed by this library.
 
 ## aws_withAssumeRole
@@ -253,18 +262,44 @@ https://docs.oracle.com/javase/tutorial/essential/exceptions/chained.html
 As of this version, there is only one custom exception: ```AWSException```, which represents any error thrown by the SDK.
 
 ### ResiliencyException
-This is the base class for all custom exceptions. It overrides the ```toString()``` to print errors in a more consistent way.
+This is the base class for all custom exceptions. It exposes a ```printMessage()``` to print errors in a more consistent way.
+Note that normally we would just override the ```toString()``` method, but There are CPS
+Limitations when overriding methods in derived classes
 
 ```groovy
-@Override
-String toString(){
+String printMessage(){
    def message = getMessage()
    def cause = getCause()?.getMessage()
    def className = this.getClass().getSimpleName()
 
    return "<$className> $message. Caused by: $cause"
 }
-``` 
+```
+Here is how we would handle an exception in the body of a global variable:
+```groovy
+try {
+    Log.logToJenkinsConsole "Retrieving latest snapshot for the following prefix: $prefix in region: $region"
+    return rds.getLatestDBClusterSnapshot(prefix)
+}
+catch(AWSException awe){
+    Log.logToJenkinsConsole "there was an error retrieving latest snapshot: " 
+        + awe.printMessage()
+    throw awe
+}
+```
+Which would result in an error like this:
+```
+Retrieving latest snapshot for the following prefix: abc in region: us-west-2
+[Pipeline] echo
+there was an error retrieving latest snapshot: <AWSException> Error reading database 
+snapshots. Caused by: User: arn:aws:iam::1234567890:user/myUser is not authorized to 
+perform: sts:AssumeRole on resource: arn:aws:iam::1234567890:role/role-abc 
+Service: AWSSecurityTokenService; Status Code: 403; Error Code: AccessDenied; Request ID: 
+50c899be-2e26-11ea-ab3a-a7ac71cad11b)
+[Pipeline] }
+[Pipeline] // script
+```
+ 
 ### AWSException
 Here is what the AWSException looks like:
 ```groovy
@@ -324,6 +359,3 @@ Each AWS service is encapsulated into its own class.
 For example RDS functions, like the ability to identify the latest RDS Cluster Snapshot for a given prefix, are implemented in the ```AmazonRDSResliency``` class.
 
 Each class in this  package inherits from the ```BaseResiliency``` class. This class forces initialization in two steps, to avoid CPS issues with class constructors.
-For more information, see this link:
-
-https://wiki.jenkins.io/display/JENKINS/Pipeline+CPS+method+mismatches

@@ -38,7 +38,8 @@ def call(String prefix, AWSCredentialsProvider credProvider, String region) {
         return latestSnapshot
     }
     catch(AWSException awe){
-        Log.logToJenkinsConsole "There was an error retrieving latest snapshot"
+        Log.logToJenkinsConsole "there was an error retrieving latest snapshot: "
+            + awe.printMessage()
         throw awe
     }
 }

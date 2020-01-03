@@ -1,4 +1,9 @@
 **/.idea
 **/.gradle
 **/build
+**/bin
 gradle*
+.project
+settings.json
+.classpath
+.settings
