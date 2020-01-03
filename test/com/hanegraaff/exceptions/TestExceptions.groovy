@@ -21,7 +21,7 @@ class TestExceptions {
         Exception cause = new Exception("This is the cause")
         ResiliencyException re = new ResiliencyException("Test Exception", cause)
 
-        assert re.toString() == "<ResiliencyException> Test Exception. Caused by: This is the cause"
+        assert re.printMessage() == "<ResiliencyException> Test Exception. Caused by: This is the cause"
     }
 
     /**
@@ -32,7 +32,7 @@ class TestExceptions {
     void test_ResiliencyException_ErrorMessageWithoutCause() {
         ResiliencyException re = new ResiliencyException("Test Exception")
 
-        assert re.toString() == "<ResiliencyException> Test Exception. Caused by: null"
+        assert re.printMessage() == "<ResiliencyException> Test Exception. Caused by: null"
     }
 
 
@@ -45,6 +45,6 @@ class TestExceptions {
         Exception cause = new Exception("This is the cause")
         AWSException re = new AWSException("Test Exception", cause)
 
-        assert re.toString() == "<AWSException> Test Exception. Caused by: This is the cause"
+        assert re.printMessage() == "<AWSException> Test Exception. Caused by: This is the cause"
     }
 }

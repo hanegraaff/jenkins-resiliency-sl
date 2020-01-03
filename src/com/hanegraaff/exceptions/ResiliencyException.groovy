@@ -20,6 +20,12 @@ class ResiliencyException extends Exception{
         super(message, cause)
     }
 
+    /**
+     * alternative override to "toString()"
+     * Overriding methods can cause CPS errors in Jenkins
+     *
+     * @return a string with a properly formatted error
+     */
     String printMessage(){
         def message = getMessage()
         def cause = getCause()?.getMessage()
