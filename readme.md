@@ -301,25 +301,9 @@ Service: AWSSecurityTokenService; Status Code: 403; Error Code: AccessDenied; Re
 ```
  
 ### AWSException
-Here is what the AWSException looks like:
-```groovy
-/**
- * An Exception caused by an AWS Error.
- * This exception exists mainly to distinguish this
- * from another category of errors
- */
-class AWSException extends ResiliencyException {
-    AWSException(String message){
-        super(message)
-    }
+AWSExceptions represent any error thrown by the Amazon SDK. Each instance contains the original SDK exception.
 
-    AWSException(String message, Throwable cause){
-        super(message, cause)
-    }
-}
-```
-
-And here is an example of how to use it:
+And here is an example of how to use it.
 
 ```groovy
 DescribeDBClusterSnapshotsRequest request = new DescribeDBClusterSnapshotsRequest()
@@ -333,6 +317,7 @@ try {
     response = rdsClient.describeDBClusterSnapshots(request)
 }
 catch(Exception e){
+    // Throw a custom exception and include the orignal one
     throw new AWSException("Error reading database snapshots", e)
 }
 ```
