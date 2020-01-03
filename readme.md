@@ -37,7 +37,7 @@ The library can be used exactly like any other Jenkins shared library
 Here is an example pipeline that uses this library.
 
 ```groovy
-@Library('resiliency-sl@feature/initial-version') _
+@Library('resiliency-sl@master') _
 
 pipeline {
     agent any
